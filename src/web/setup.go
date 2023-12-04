@@ -9,6 +9,9 @@ import (
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+
+	// Add CORS middleware support
+	"github.com/gin-contrib/cors"
 )
 
 var (
@@ -39,6 +42,13 @@ func Init() {
 
 	// Set the router as the default one shipped with Gin
 	router := gin.Default()
+
+	//Configure CORS middleware
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"*"}
+	config.AllowHeaders = []string{"*"}
+	router.Use(cors.New(config))
+
 	// Serve HTML templates
 	router.LoadHTMLGlob("./templates/*")
 	// Serve frontend static files
